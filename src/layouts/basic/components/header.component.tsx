@@ -26,14 +26,14 @@ const Header = () => {
 
   return (
     <div className="basicLayout__header">
-      <div className="basicLayout__header__logo">
+      {/* <div className="basicLayout__header__logo">
         <Logo />
-      </div>
+      </div> */}
 
-      <div className="basicLayout__header__right">
+      {/* <div className="basicLayout__header__right">
         <Bell hasNotification={hasNotification} />
         <Input name='search' placeholder='Поиск' value={searchValue} onChange={(e) => setSearchValue(e.target.value)} icon={<Search className='search' />} />
-      </div>
+      </div> */}
     </div>
   );
 };

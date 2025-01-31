@@ -20,12 +20,12 @@ RUN npm run build
 FROM nginx:alpine
 
 # Copy the built app from the previous stage
-COPY --from=build /app/dist /usr/share/nginx/html
+COPY --from=build /app/dist /usr/share/nginx/html-ktzhai
 
 # Copy the Nginx configuration file
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/default-ktzhai.conf
 
-# Expose port 80 to the outside world
+# Expose pot 80 to the outside world
 EXPOSE 80
 
 # Start Nginx when the container starts
