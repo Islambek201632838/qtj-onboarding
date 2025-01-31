@@ -124,18 +124,28 @@ export default function Search({
                   {group}
                 </button>
               ))
-            ) : (
-              popularQuestions[activeGroup].map((question: string) => (
-                <button
-                  key={question}
-                  type="button"
-                  className="subgroup-button"
-                  onClick={() => handleSearchAction(question, true)}
-                >
-                  {question}
-                </button>
-              ))
-            )}
+            ) : <>
+              {
+                popularQuestions[activeGroup].map((question: string) => (
+                  <button
+                    key={question}
+                    type="button"
+                    className="subgroup-button"
+                    onClick={() => handleSearchAction(question, true)}
+                  >
+                    {question}
+                  </button>
+                ))
+              }
+
+              <button
+                type="button"
+                className="subgroup-button"
+                onClick={() => setActiveGroup(null)}
+              >
+                Назад
+              </button>
+            </>}
           </div>
         </>
       )}

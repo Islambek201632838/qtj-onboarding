@@ -55,8 +55,10 @@
   display: flex;
   gap: 10px;
   margin-top: 10px;
-  flex-wrap: wrap;
   position: absolute;
+  flex-direction: column;
+  width: 100%;
+
 
   &.active {
     flex-direction: column;
