@@ -91,3 +91,15 @@
     color: var(--color-blue);
   }
 }
+
+.back-button {
+  margin-top: 20px;
+  background: var(--color-blue);
+  width: 150px;
+  border-radius: var(--border-radius-basic);
+  color: white;
+  cursor: pointer;
+  padding: 10px 15px;
+  align-self: center;
+  font-size: 18px;
+}

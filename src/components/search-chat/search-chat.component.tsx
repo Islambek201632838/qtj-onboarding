@@ -140,7 +140,7 @@ export default function Search({
 
               <button
                 type="button"
-                className="subgroup-button"
+                className="back-button"
                 onClick={() => setActiveGroup(null)}
               >
                 Назад
