@@ -80,7 +80,7 @@ const OnboardingPage = () => {
         <div className={'main__help__wrapper'}>
           {!isChatOpen && (
             <>
-              <h1 className={'main__title'}>Чем я могу помочь</h1>
+              <h1 className={'main__title'}>Чем я могу помочь?</h1>
               <h2 className={'main__subtitle'}>Используйте наш портал для вашего удобства</h2>
 
             </>
