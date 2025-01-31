@@ -10,7 +10,7 @@ export const routes: Route[] = [
   // 'education',
   // 'documents'
   'onboarding',
-  'onboarding-2',
+  // 'onboarding-2',
 
 ];
 
@@ -27,10 +27,10 @@ export const routeToIcon: Record<Route, any> = {
     active: <StatisticsActive />,
     inactive: <Statistics />,
   },
-  'onboarding-2': {
-    active: <StatisticsActive />,
-    inactive: <Statistics />,
-  },
+  // 'onboarding-2': {
+  //   active: <StatisticsActive />,
+  //   inactive: <Statistics />,
+  // },
   // candidates: {
   //   active: <CandidatesActive />,
   //   inactive: <Candidates />,
