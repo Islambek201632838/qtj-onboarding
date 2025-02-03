@@ -2,19 +2,27 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
 import './basic.style.scss';
-import { ChervonRightDouble } from 'assets';
+import { Avatar, ChervonRightDouble } from 'assets';
 import { routes, routeToIcon } from 'constants/shared.constant';
 import { Text } from 'components/text.component';
 import QtjLogo from 'assets/images/qtj-logo.png';
 import QtjLogoFull from 'assets/images/qtj-logo-full.png';
+import { logout } from 'requests/auth.request';
+import { useAuth } from 'contexts/auth.context';
 
 const Sidebar = () => {
   const { t } = useTranslation();
+  const { handleRemoveToken } = useAuth();
   const location = useLocation();
 
   const [isOpen, setIsOpen] = useState(false);
 
   const isActiveRoute = (route: string) => location.pathname.split('/').pop() === route || location.pathname === '/app' && route === 'home';
+
+  const handleLogout = () => {
+    handleRemoveToken();
+    logout();
+  }
 
   return (
     <div className={`basicLayout__sidebar ${isOpen ? 'open' : ''}`}>
@@ -38,6 +46,12 @@ const Sidebar = () => {
         </nav>
       </div>
 
+      <div className="basicLayout__sidebar__profile" onClick={() => handleLogout()}>
+        <Avatar />
+        <Text className='basicLayout__sidebar__button-text' color={'#000000'} fontWeight={400}>
+          {t(`navigation.logout`)}
+        </Text>
+      </div>
       <div className="basicLayout__sidebar__button" onClick={() => setIsOpen(!isOpen)}>
         <ChervonRightDouble />
         <Text className='basicLayout__sidebar__button-text' color={'#000000'} fontWeight={400}>

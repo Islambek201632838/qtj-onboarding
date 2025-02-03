@@ -18,13 +18,13 @@ export default function RoutesIndex() {
       <Route path="/" element={<Navigate to="/app/onboarding" />} />
       <Route path="/auth/:type" element={<Auth />} />
       <Route path="/app" element={<BasicLayout />}>
-        <Route index element={<Home />} />
-        <Route path="vacancies" element={<VacanciesPage />} />
-        <Route path="vacancies/create" element={<CreateVacancyPage />} />
-        <Route path="candidates" element={<CandidatesPage />} />
+        {/* <Route index element={<Home />} /> */}
+        {/* <Route path="vacancies" element={<VacanciesPage />} /> */}
+        {/* <Route path="vacancies/create" element={<CreateVacancyPage />} /> */}
+        {/* <Route path="candidates" element={<CandidatesPage />} /> */}
         <Route path="onboarding" element={<OnboardingPage />} />
-        <Route path="onboarding-2" element={<OnboardingPage2 />} />
-        <Route path="*" element={<Navigate to="/app/onboarding" />} />
+        {/* <Route path="onboarding-2" element={<OnboardingPage2 />} /> */}
+        {/* <Route path="*" element={<Navigate to="/app/onboarding" />} /> */}
       </Route>
     </Routes>
   );

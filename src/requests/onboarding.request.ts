@@ -18,8 +18,6 @@ export interface IChartStartResponse {
   }
 }
 
-const baseUrl = "http://91.185.21.250/api";
-
 export const getChatResponse = (question: string): Promise<IChatResponse> => {
   return api.post(`/onboarding/query?question=${question}`);
 } 

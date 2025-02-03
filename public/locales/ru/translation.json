@@ -14,7 +14,8 @@
     "chat": "Чат",
     "onboarding": "AI помощник",
     "onboarding-2": "AI помощник",
-    "qtj-onboarding": "AI помощник"
+    "qtj-onboarding": "AI помощник",
+    "logout": "Выйти"
   },
   "auth": {
     "title": {

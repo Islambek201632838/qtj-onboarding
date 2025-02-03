@@ -4,28 +4,62 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: var(--color-gray);
+    background: url('../../assets/images/КТЖ-jpg.jpg');
+    background-size: cover;
   }
   &__box {
-    background: rgba(255, 255, 255, 0.8);
-    padding: 30px;
-    border-radius: 8px;
+    background: rgba(255, 255, 255, 1);
+    padding: 30px 30px 60px 30px;
+    border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    width: 360px;
+    width: 730px;
+    max-width: 90vw;
+    max-height: 90vh;
+    height: 900px;
     text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    
+    & img {
+      margin-bottom: 20px;
+      height: 50px;
+      width: auto;
+    }
+
     & h2 {
-      font-size: var(--font-size-xl);
+      font-size: 40px;
       font-weight: bold;
-      margin: 0 0 20px 0;
-      color: var(--color-dark-gray);
+      color: #000;
+      margin-bottom: 40px;
     }
     & form {
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 1.25rem;
     }
     & button {
-      width: 100%;
+      align-self: flex-start;
+      height: 48px;
+      border-radius: 14px;
+    }
+
+    & .row {
+      display: flex;
+      justify-content: space-between;
+
+      > div {
+        display: flex;
+        gap: 0.625rem;
+        height: 18px;
+        line-height: 18px;
+      }
+
+      input {
+        width: 18px;
+        height: 18px;
+        margin: 0;
+      }
     }
   }
   &__footer {
@@ -41,5 +75,24 @@
       color: var(--color-blue);
       text-decoration: none;
     }
+  }
+  &__form {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+.form-group {
+  max-width: 410px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: flex-start;
+
+  label {
+    font-size: 16px;
+    font-weight: 600;
   }
 }

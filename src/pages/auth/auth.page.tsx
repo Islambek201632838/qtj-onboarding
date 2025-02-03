@@ -6,12 +6,13 @@ import { FormikProps, FormikProvider, useFormik } from 'formik';
 
 import { ISignInDto } from 'interfaces/auth.interface';
 import { useAuth } from 'contexts/auth.context';
-import { signIn } from 'requests/auth.request';
+import { login, signIn } from 'requests/auth.request';
 import { markInvalidFields } from 'utils/form.utils';
 import { SIGN_IN_VALIDATION_SCHEMA } from 'constants/auth.constant';
 import Loader from 'components/loader/loader.component';
 import Input from 'components/input/input.component';
 import Button from 'components/button/button.component';
+import QtjFull from '../../assets/images/qtj-logo-full.png'
 import './auth.style.scss';
 
 const Auth = () => {
@@ -45,9 +46,12 @@ const Auth = () => {
         markInvalidFields(formik, 'auth');
       } else {
         setLoading(true);
-        signIn(formik.values)
-          .then((res) => handleSetToken(res.token))
-          .catch(() => toast.error('Произошла ошибка при авторизации'))
+        login(formik.values)
+          .then((res) => {
+            console.log(res.access_token, res.refresh_token)
+            handleSetToken(res.access_token, res.refresh_token)
+          })
+          .catch((err) => toast.error(err.response.data.detail))
           .finally(() => setLoading(false));
       }
     });
@@ -61,29 +65,50 @@ const Auth = () => {
     <>
       <div className="auth__container">
         <div className="auth__box">
-          <h2>{t(`auth.title.${authType}`)}</h2>
-          <FormikProvider value={formik}>
-            <form onSubmit={handleSubmit} noValidate={true}>
-              <Input
-                formik={formik}
-                name="username"
-                value={formik.values.username}
-                label={t('auth.username')}
-                onChange={handleChange}
-              />
-              <Input
-                formik={formik}
-                type="password"
-                name="password"
-                value={formik.values.password}
-                label={t('auth.password')}
-                onChange={handleChange}
-              />
-              <Button type="submit" primary>
-                {t('auth.signIn')}
-              </Button>
-            </form>
-          </FormikProvider>
+          <img src={QtjFull} alt="" />
+          <div className="auth__form">
+            {/* <h2>{t(`auth.title.${authType}`)}</h2> */}
+            <h2>Добро пожаловать</h2>
+            <FormikProvider value={formik}>
+              <form onSubmit={handleSubmit} noValidate={true}>
+                <div className="form-group">
+                  <label>
+                    Логин или почта
+                  </label>
+                  <Input
+                    formik={formik}
+                    name="username"
+                    value={formik.values.username}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>
+                    Пароль
+                  </label>
+                  <Input
+                    formik={formik}
+                    type="password"
+                    name="password"
+                    value={formik.values.password}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="row">
+                  <div>
+                    <input type="checkbox" name="remember-me" id="remember-me" />
+                    Запомнить меня
+                  </div>
+                  <div>
+                    Забыли пароль?
+                  </div>
+                </div>
+                <Button type="submit" primary>
+                  {t('auth.signIn')}
+                </Button>
+              </form>
+            </FormikProvider>
+          </div>
         </div>
       </div>
     </>

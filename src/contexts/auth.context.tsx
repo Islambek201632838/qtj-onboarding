@@ -1,10 +1,11 @@
 import React, { createContext, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ACCESS_TOKEN, removeAccessToken, setAccessToken } from 'requests/token.request';
+import { ACCESS_TOKEN, REFRESH_TOKEN, removeAccessToken, setAccessToken, setRefreshToken, removeRefreshToken } from 'requests/token.request';
 
 interface AuthContextType {
   token?: string | null;
-  handleSetToken: (token: string) => void;
+  refresh?: string | null;
+  handleSetToken: (token: string, refresh: string) => void;
   handleRemoveToken: () => void;
 }
 
@@ -14,6 +15,7 @@ interface IProps {
 
 const AuthContext = createContext<AuthContextType>({
   token: null,
+  refresh: null,
   handleSetToken: () => null,
   handleRemoveToken: () => null,
 });
@@ -25,18 +27,27 @@ export const AuthProvider: React.FC<IProps> = ({ children }: { children: React.R
   const [token, setToken] = React.useState<string | null>(
     localStorage.getItem(ACCESS_TOKEN) as string,
   );
+  const [refresh, setRefresh] = React.useState<string | null>(
+    localStorage.getItem(REFRESH_TOKEN) as string,
+  );
 
-  const handleSetToken = (tokenValue: string) => {
+  const handleSetToken = (tokenValue: string, refreshToken: string) => {
     setToken(tokenValue);
     setAccessToken(tokenValue);
-    navigate('/user-groups');
+    setRefresh(refreshToken);
+    setRefreshToken(refreshToken);
+
+    navigate('/');
   };
 
   const handleRemoveToken = () => {
     setToken(null);
+    setRefresh(null);
     removeAccessToken();
+    removeRefreshToken();
   };
 
-  const value = { token, handleSetToken, handleRemoveToken };
+
+  const value = { token, handleSetToken, handleRemoveToken, refresh };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

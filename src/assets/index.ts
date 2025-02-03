@@ -35,6 +35,7 @@ import { ReactComponent as Logo } from './images/logo.svg'
 import { ReactComponent as CopyIcon } from './icons/copy.svg'
 import { ReactComponent as CloseIcon } from './icons/close.svg'
 import { ReactComponent as BotAvatar } from './icons/bot-avatar.svg'
+import { ReactComponent as Avatar } from './icons/avatar.svg'
 
 export {
   ChervonRightDouble,
@@ -71,4 +72,5 @@ export {
   ChatActive,
   Search2,
   BotAvatar,
+  Avatar
 }
