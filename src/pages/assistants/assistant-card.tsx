@@ -4,7 +4,13 @@ import { useNavigate } from 'react-router-dom';
 const AssistantCard = ({ assistant }: any) => {
   const navigate = useNavigate();
   return (
-    <div className="assistants__card">
+    <div
+      className={`${'assistants__card'} ${
+        assistant?.isDisabled ? 'assistants__card-disabled' : 'assistants__card-active'
+      }`}
+    >
+      {assistant?.isDisabled && <div className="assistants__card__overlay">В процессе</div>}
+
       <div
         className="assistants__card__avatar"
         style={{

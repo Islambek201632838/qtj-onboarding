@@ -12,7 +12,9 @@ import { SIGN_IN_VALIDATION_SCHEMA } from 'constants/auth.constant';
 import Loader from 'components/loader/loader.component';
 import Input from 'components/input/input.component';
 import Button from 'components/button/button.component';
-import QtjFull from '../../assets/images/qtj-logo-full.png'
+import QtjFull from '../../assets/images/qtj-logo-full.png';
+import Qtj from '../../assets/images/qtj.jpg';
+
 import './auth.style.scss';
 
 const Auth = () => {
@@ -48,8 +50,8 @@ const Auth = () => {
         setLoading(true);
         login(formik.values)
           .then((res) => {
-            console.log(res.access_token, res.refresh_token)
-            handleSetToken(res.access_token, res.refresh_token)
+            console.log(res.access_token, res.refresh_token);
+            handleSetToken(res.access_token, res.refresh_token);
           })
           .catch((err) => toast.error(err.response.data.detail))
           .finally(() => setLoading(false));
@@ -65,49 +67,48 @@ const Auth = () => {
     <>
       <div className="auth__container">
         <div className="auth__box">
-          <img src={QtjFull} alt="" />
+          {/* <img src={QtjFull} alt="" /> */}
           <div className="auth__form">
+            <div className={'auth__form-left'}>
+              <img src={Qtj} alt="" />
+            </div>
+            <div className={'auth__form-right'}>
+              <h2>Добро пожаловать</h2>
+              <FormikProvider value={formik}>
+                <form onSubmit={handleSubmit} noValidate={true}>
+                  <div className="form-group">
+                    <label>Логин или почта</label>
+                    <Input
+                      formik={formik}
+                      name="username"
+                      value={formik.values.username}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Пароль</label>
+                    <Input
+                      formik={formik}
+                      type="password"
+                      name="password"
+                      value={formik.values.password}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className="row">
+                    <div>
+                      <input type="checkbox" name="remember-me" id="remember-me" />
+                      Запомнить меня
+                    </div>
+                    <div>Забыли пароль?</div>
+                  </div>
+                  <Button type="submit" primary>
+                    {t('auth.signIn')}
+                  </Button>
+                </form>
+              </FormikProvider>
+            </div>
             {/* <h2>{t(`auth.title.${authType}`)}</h2> */}
-            <h2>Добро пожаловать</h2>
-            <FormikProvider value={formik}>
-              <form onSubmit={handleSubmit} noValidate={true}>
-                <div className="form-group">
-                  <label>
-                    Логин или почта
-                  </label>
-                  <Input
-                    formik={formik}
-                    name="username"
-                    value={formik.values.username}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="form-group">
-                  <label>
-                    Пароль
-                  </label>
-                  <Input
-                    formik={formik}
-                    type="password"
-                    name="password"
-                    value={formik.values.password}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="row">
-                  <div>
-                    <input type="checkbox" name="remember-me" id="remember-me" />
-                    Запомнить меня
-                  </div>
-                  <div>
-                    Забыли пароль?
-                  </div>
-                </div>
-                <Button type="submit" primary>
-                  {t('auth.signIn')}
-                </Button>
-              </form>
-            </FormikProvider>
           </div>
         </div>
       </div>

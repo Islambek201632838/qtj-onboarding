@@ -107,7 +107,7 @@ const AssistantsPage = () => {
 
   return (
     <div className="assistants">
-      <h1 className={'assistants__header'}>Ассистенттер көрмесі</h1>
+      {/* <h1 className={'assistants__header'}>Ассистенттер көрмесі</h1> */}
       <div className={'assistants__wrapper'}>
         <div className="assistants__grid">
           {assistants.map((assistant, index) => (
