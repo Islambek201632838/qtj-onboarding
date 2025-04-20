@@ -17,12 +17,14 @@ const Sidebar = () => {
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const isActiveRoute = (route: string) => location.pathname.split('/').pop() === route || location.pathname === '/app' && route === 'home';
+  const isActiveRoute = (route: string) =>
+    location.pathname.split('/').pop() === route ||
+    (location.pathname === '/app' && route === 'home');
 
   const handleLogout = () => {
     handleRemoveToken();
     logout();
-  }
+  };
 
   return (
     <div className={`basicLayout__sidebar ${isOpen ? 'open' : ''}`}>
@@ -30,7 +32,15 @@ const Sidebar = () => {
         <div className="basicLayout__logo">
           {isOpen ? <img src={QtjLogoFull} alt="" /> : <img src={QtjLogo} alt="logo" />}
         </div>
-        <nav className="basicLayout__menu">
+        {isOpen && <div className="history-wrap">
+          <h4>История</h4>
+          <ul>
+            <li><a href="">Расписание поездов</a></li>
+            <li><a href="">Продажа билетов</a></li>
+            <li><a href="">Где находится вагон-ресторан?</a></li>
+          </ul>
+        </div>}
+        {/* <nav className="basicLayout__menu">
           <ul>
             {routes.map((route) => (
               <li key={route} className={isActiveRoute(route) ? 'active' : ''}>
@@ -43,18 +53,18 @@ const Sidebar = () => {
               </li>
             ))}
           </ul>
-        </nav>
+        </nav> */}
       </div>
 
-      <div className="basicLayout__sidebar__profile" onClick={() => handleLogout()}>
+      {/* <div className="basicLayout__sidebar__profile" onClick={() => handleLogout()}>
         <Avatar />
         <Text className='basicLayout__sidebar__button-text' color={'#000000'} fontWeight={400}>
           {t(`navigation.logout`)}
         </Text>
-      </div>
+      </div> */}
       <div className="basicLayout__sidebar__button" onClick={() => setIsOpen(!isOpen)}>
         <ChervonRightDouble />
-        <Text className='basicLayout__sidebar__button-text' color={'#000000'} fontWeight={400}>
+        <Text className="basicLayout__sidebar__button-text" color={'#000000'} fontWeight={400}>
           {t(`navigation.collapse`)}
         </Text>
       </div>
