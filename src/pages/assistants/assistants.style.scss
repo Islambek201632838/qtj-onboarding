@@ -36,11 +36,12 @@
       grid-template-columns: repeat(4, minmax(150px, 1fr));
     }
     @media (min-width: 1500px) {
-      grid-template-columns: repeat(5, minmax(150px, 1fr));
+      grid-template-columns: repeat(4, minmax(150px, 1fr));
     }
   }
   &__card {
     position: relative;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -50,6 +51,21 @@
     padding: 1.25rem 1.5rem 2rem;
     border-radius: 0.875rem;
     transition: border-color 250ms ease-in-out;
+
+    &__overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(2px);
+      z-index: 10;
+      color: white;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      border-radius: inherit;
+    }
     // cursor: pointer;
     &__btn {
       margin-top: auto;
@@ -94,16 +110,6 @@
     &::before {
       top: -2px;
     }
-    &:hover {
-      border-color: var(--color-green);
-      &::before,
-      &::after {
-        background: var(--color-green);
-      }
-      .assistants__card__btn-active {
-        background: var(--color-green);
-      }
-    }
     &__avatar {
       width: 100%;
       padding-top: 100%;
@@ -145,6 +151,30 @@
       text-overflow: ellipsis;
       overflow: hidden;
       max-width: 100%;
+    }
+  }
+
+  &__card-active {
+    &:hover {
+      border-color: var(--color-green);
+      &::before,
+      &::after {
+        background: -webkit-linear-gradient(
+          -135deg,
+          #55ba5a,
+          rgba(0, 114, 188, 0.75),
+          rgba(71, 47, 146, 0.5)
+        );
+      }
+
+      .assistants__card__btn-active {
+        background: -webkit-linear-gradient(
+          -135deg,
+          #55ba5a,
+          rgba(0, 114, 188, 0.75),
+          rgba(71, 47, 146, 0.5)
+        );
+      }
     }
   }
 }

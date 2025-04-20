@@ -13,7 +13,7 @@ const BasicLayout = () => {
             <Sidebar />
           </div>
           <div className="basicLayout__right">
-            {/* <Header /> */}
+            <Header />
             <div className="basicLayout__content">
               <Outlet />
             </div>
