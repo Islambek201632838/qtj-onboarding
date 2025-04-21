@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import "./chat.style.scss";
 import { BotAvatar, CloseIcon, CopyIcon } from "assets";
 import { RefreshCwIcon, SendIcon } from "lucide-react";
-import BotAvatarPerson from 'assets/icons/bot_avatar.jpg'
-
+// import BotAvatarPerson from 'assets/icons/bot_avatar.jpg'
+import BotAvatarPerson from 'assets/icons/bot_avatar_men.jpg'
 interface IProps {
   messages: any[];
   handleSendMessage: (message: string, clearChat?: boolean) => void;
