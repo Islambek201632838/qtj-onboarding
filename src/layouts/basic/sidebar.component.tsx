@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './basic.style.scss';
 import { Avatar, ChervonRightDouble } from 'assets';
 import { routes, routeToIcon } from 'constants/shared.constant';
@@ -11,6 +11,7 @@ import { logout } from 'requests/auth.request';
 import { useAuth } from 'contexts/auth.context';
 
 const Sidebar = () => {
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const { handleRemoveToken } = useAuth();
   const location = useLocation();
@@ -32,14 +33,22 @@ const Sidebar = () => {
         <div className="basicLayout__logo">
           {isOpen ? <img src={QtjLogoFull} alt="" /> : <img src={QtjLogo} alt="logo" />}
         </div>
-        {isOpen && <div className="history-wrap">
-          <h4>История</h4>
-          <ul>
-            <li><a href="">Расписание поездов</a></li>
-            <li><a href="">Продажа билетов</a></li>
-            <li><a href="">Где находится вагон-ресторан?</a></li>
-          </ul>
-        </div>}
+        {isOpen && (
+          <div className="history-wrap">
+            <h4>История</h4>
+            <ul>
+              <li>
+                <a href="">Расписание поездов</a>
+              </li>
+              <li>
+                <a href="">Продажа билетов</a>
+              </li>
+              <li>
+                <a href="">Где находится вагон-ресторан?</a>
+              </li>
+            </ul>
+          </div>
+        )}
         {/* <nav className="basicLayout__menu">
           <ul>
             {routes.map((route) => (
@@ -62,11 +71,21 @@ const Sidebar = () => {
           {t(`navigation.logout`)}
         </Text>
       </div> */}
-      <div className="basicLayout__sidebar__button" onClick={() => setIsOpen(!isOpen)}>
-        <ChervonRightDouble />
-        <Text className="basicLayout__sidebar__button-text" color={'#000000'} fontWeight={400}>
-          {t(`navigation.collapse`)}
-        </Text>
+      <div className="basicLayout__sidebar__button-wrapper">
+        {isOpen && (
+          <div className="basicLayout__sidebar__back-button" onClick={() => navigate(-1)}>
+            <Text className="basicLayout__sidebar__back-button-text" fontWeight={400}>
+              Назад
+            </Text>
+          </div>
+        )}
+
+        <div className="basicLayout__sidebar__button" onClick={() => setIsOpen(!isOpen)}>
+          <ChervonRightDouble />
+          <Text className="basicLayout__sidebar__button-text" fontWeight={400}>
+            {t(`navigation.collapse`)}
+          </Text>
+        </div>
       </div>
     </div>
   );

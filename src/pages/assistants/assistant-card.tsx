@@ -10,7 +10,6 @@ const AssistantCard = ({ assistant }: any) => {
       }`}
     >
       {assistant?.isDisabled && <div className="assistants__card__overlay">В процессе</div>}
-
       <div
         className="assistants__card__avatar"
         style={{
