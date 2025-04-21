@@ -28,7 +28,13 @@ const AssistantCard = ({ assistant }: any) => {
         className={`${`assistants__card__btn`} ${
           assistant?.isDisabled ? 'assistants__card__btn-disabled' : 'assistants__card__btn-active'
         }`}
-        onClick={() => assistant?.name === "Динара" ? navigate('http://91.185.21.250:82/app/onboarding') : navigate('/app/onboarding')}
+        onClick={() => {
+          if (assistant?.name === "Динара") {
+            window.location.href = 'http://91.185.21.250:82/app/onboarding';
+          } else {
+            navigate('/app/onboarding');
+          }
+        }}
       >
         {assistant?.action}
       </button>
