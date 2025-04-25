@@ -9,7 +9,10 @@ const OnboardingPage = () => {
   const [msgs, setMsgs] = React.useState<any[]>([]);
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const handleSearch = (msg: string, dropChatId = false) => {
+  const handleSearch = (msg: string, dropChatId = false, audio = null) => {
+    if (!msg && !audio)
+      return;
+    
     if (dropChatId) {
       const newChatId = `${Date.now()}_${Math.random().toString(36).substring(2, 10)}`;
       localStorage.setItem("chat_id", newChatId);
@@ -27,12 +30,24 @@ const OnboardingPage = () => {
         content: msg,
         time: timestamp,
       };
-      setMsgs((prevMsgs) => [...prevMsgs, newMessage]);
+      if (msg) {
+        setMsgs((prevMsgs) => [...prevMsgs, newMessage]);
+      }
+      const newAudioMessage: any = {
+        role: "user",
+        content: audio,
+        time: timestamp,
+      };
+
+      if (audio) {
+        setMsgs((prevMsgs) => [...prevMsgs, newAudioMessage]);
+      }
+
+
       setIsLoading(true);
 
-      getChatResponse(msg)
+      getChatResponse(msg, audio)
         .then((response) => {
-          console.log(response)
           const botMessage: any = {
             role: "assistant",
             content: response.response,

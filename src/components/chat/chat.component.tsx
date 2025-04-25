@@ -1,34 +1,36 @@
-import React, { useEffect, useRef, useState } from "react";
-import "./chat.style.scss";
-import { BotAvatar, CloseIcon, CopyIcon } from "assets";
-import { RefreshCwIcon, SendIcon } from "lucide-react";
+import React, { useEffect, useRef, useState } from 'react';
+import './chat.style.scss';
+import { BotAvatar, CloseIcon, CopyIcon } from 'assets';
+import { RefreshCwIcon, SendIcon, Mic } from 'lucide-react';
 // import BotAvatarPerson from 'assets/icons/bot_avatar.jpg'
-import BotAvatarPerson from 'assets/icons/bot_avatar_men.jpg'
+import BotAvatarPerson from 'assets/icons/bot_avatar_men.jpg';
+import AudioRecorder from 'components/record-voice';
 interface IProps {
   messages: any[];
-  handleSendMessage: (message: string, clearChat?: boolean) => void;
+  handleSendMessage: (message: string, clearChat?: boolean, audioBlob?: Blob) => void;
   handleClose?: VoidFunction;
   isLoading?: boolean;
   handleDeleteChatHistory: () => void;
 }
 
 const option2Questions = [
-  "Как мне получить пропуск в здание?",
-  "Где мне пройти инструктажи?",
-  "Какие инструменты используются для внутреннего общения?",
-  "Как я могу получить доступ к корпоративным ресурсам"
-]
+  'Как мне получить пропуск в здание?',
+  'Где мне пройти инструктажи?',
+  'Какие инструменты используются для внутреннего общения?',
+  'Как я могу получить доступ к корпоративным ресурсам',
+];
 
 const Chat: React.FC<IProps> = ({
   messages,
   handleSendMessage,
   handleClose,
   isLoading,
-  handleDeleteChatHistory
+  handleDeleteChatHistory,
 }) => {
   const chatBodyRef = useRef<HTMLDivElement>(null);
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const [isSecondOption, setIsSecondOption] = useState(false);
+  const [isRecording, setIsRecording] = useState<boolean>(false);
 
   useEffect(() => {
     if (chatBodyRef.current) {
@@ -41,7 +43,7 @@ const Chat: React.FC<IProps> = ({
   };
 
   const handleSubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (!isLoading && e.key === "Enter") {
+    if (!isLoading && e.key === 'Enter') {
       handleSendMessage(query);
       setQuery('');
     }
@@ -54,7 +56,7 @@ const Chat: React.FC<IProps> = ({
   }, []);
 
   const formatMessage = (text: string) => {
-    return text?.split("\n").map((line, index) => {
+    return text?.split('\n').map((line, index) => {
       const trimmedLine = line.trim(); // Trim the line
       const headerMatch = trimmedLine.match(/^(#+)\s*(.*)/); // Match against trimmed line
 
@@ -82,18 +84,20 @@ const Chat: React.FC<IProps> = ({
 
       return (
         <React.Fragment key={index}>
-          {line
-            ?.split(/(\*\*.*?\*\*|\*)/)
-            .map((part, i) => {
-              if (part.startsWith("**") && part.endsWith("**")) {
-                return <strong style={{ fontWeight: 600 }} key={i}>{part.slice(2, -2)}</strong>;
-              } else if (part === "*") {
-                return <br key={i} />;
-              } else {
-                return <span key={i}>{part}</span>;
-              }
-            })}
-          {index < text?.split("\n").length - 1 && <br />}
+          {line?.split(/(\*\*.*?\*\*|\*)/).map((part, i) => {
+            if (part.startsWith('**') && part.endsWith('**')) {
+              return (
+                <strong style={{ fontWeight: 600 }} key={i}>
+                  {part.slice(2, -2)}
+                </strong>
+              );
+            } else if (part === '*') {
+              return <br key={i} />;
+            } else {
+              return <span key={i}>{part}</span>;
+            }
+          })}
+          {index < text?.split('\n').length - 1 && <br />}
         </React.Fragment>
       );
     });
@@ -106,32 +110,32 @@ const Chat: React.FC<IProps> = ({
   return (
     <div className={'full_chat'}>
       <div ref={chatBodyRef} className={`full_chat__body `}>
-        {messages?.map((msg: any, index: number) => (
-          <div
-            key={index}
-            className={`${'full_chat__message'} ${msg.role}`}
-          >
-            <div className={'full_chat__message__top'}>
-              {msg.role === "assistant" && (
-                <img src={BotAvatarPerson} alt="" />
-              )}
-              <div className={'full_chat__message__text'}>
-                {msg.role === "assistant"
-                  ? formatMessage(msg.content)
-                  : msg.content}
+        {messages?.map((msg: any, index: number) => {
+          if (msg.content instanceof Blob) {
+            const url = URL.createObjectURL(msg.content);
+            return (
+              <div key={index} className={`${'full_chat__message'} ${msg.role}`}>
+                <audio controls src={url} />
+              </div>
+            );
+          }
+          return (
+            <div key={index} className={`${'full_chat__message'} ${msg.role}`}>
+              <div className={'full_chat__message__top'}>
+                {msg.role === 'assistant' && <img src={BotAvatarPerson} alt="" />}
+                <div className={'full_chat__message__text'}>
+                  {msg.role === 'assistant' ? formatMessage(msg.content) : msg.content}
+                </div>
+              </div>
+              <div className={'full_chat__message__bottom'}>
+                <div className={'full_chat__message__copy'} onClick={() => handleCopy(msg.content)}>
+                  <CopyIcon />
+                </div>
+                <div className={'full_chat__message__time'}>{msg.time}</div>
               </div>
             </div>
-            <div className={'full_chat__message__bottom'}>
-              <div
-                className={'full_chat__message__copy'}
-                onClick={() => handleCopy(msg.content)}
-              >
-                <CopyIcon />
-              </div>
-              <div className={'full_chat__message__time'}>{msg.time}</div>
-            </div>
-          </div>
-        ))}
+          );
+        })}
         {isLoading && (
           <div className={'full_chat__message__top'}>
             <img src={BotAvatarPerson} alt="" />
@@ -143,21 +147,19 @@ const Chat: React.FC<IProps> = ({
       </div>
 
       <div className="full_chat__open-chat-questions">
-        {isSecondOption && option2Questions.map((question, index) => (
-          <div
-            key={index}
-            className={'full_chat__open-chat-question'}
-            onClick={() => !isLoading && handleSendMessage(question, true)}
-          >
-            {question}
-          </div>
-        ))}
+        {isSecondOption &&
+          option2Questions.map((question, index) => (
+            <div
+              key={index}
+              className={'full_chat__open-chat-question'}
+              onClick={() => !isLoading && handleSendMessage(question, true)}
+            >
+              {question}
+            </div>
+          ))}
       </div>
       <div className={'full_chat__footer'}>
-        <div
-          className={'full_chat__send'}
-          onClick={() => !isLoading && handleDeleteChatHistory()}
-        >
+        <div className={'full_chat__send'} onClick={() => !isLoading && handleDeleteChatHistory()}>
           <RefreshCwIcon />
         </div>
         <input
@@ -170,14 +172,20 @@ const Chat: React.FC<IProps> = ({
         <div
           className={'full_chat__send'}
           onClick={() => {
-            if (!isLoading) {
+            if (!isLoading && !isRecording) {
               handleSendMessage(query);
               setQuery('');
             }
           }}
         >
-          <SendIcon />
+          <SendIcon color={isRecording ? 'grey' : 'black'} />
         </div>
+        <AudioRecorder
+          handleSendMessage={(audioFile) => {
+            handleSendMessage(query, false, audioFile);
+          }}
+          handleRecording={setIsRecording}
+        />
       </div>
 
       {handleClose && (
